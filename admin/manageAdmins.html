@@ -209,7 +209,7 @@
   });
  let id = user.email.replace(/@.*/, "");
   const teacher = teachers[id];
-  
+  const userId = id;
   console.log(sects);
   let classes = [];
   if (id!==schoolId) sects = teacher.adminFunctions.admins.resources;  
@@ -280,7 +280,8 @@
       resources: sects
     },
     feesView: {
-      action: "View School Fees"      
+      action: "View School Fees",
+       
     },
     feesDefaulter: {
       action: "Check School Fees Defaulters",
@@ -303,6 +304,7 @@
     },
     roles: {
       action: "Manage Roles"
+      
     }
     
   };
@@ -361,6 +363,10 @@
         let tdFx = row.insertCell();
         let tdCan = row.insertCell();
         let {resources, action}  = adminFunctions[fx];
+        console.log(userId);
+        if (userId==schoolId && !resources){
+          resources = sects;
+        }
         if (!resources && id!==schoolId) return;
         tdFx.innerHTML = `<input id="${id}" type="checkbox" value="${fx}"> <label for="${id}">${action}</label>`;
         
