@@ -453,6 +453,8 @@ let sectionDoc = await getDoc(sectionRef);
       genderIn.value = !result.gender? "" : result.gender.toLowerCase();
   }
 add.onclick = e=>{
+  let cls = classSelect.value;
+  console.log(cls);
   let result ={
     sn: table.children.length,
     name: "",
@@ -620,6 +622,7 @@ add.onclick = e=>{
                 student.id = lastStdId;
                 upStd.class = classSelect.value.toLowerCase();
                 upStd.id = student.id;
+                
                 console.log(student.name);
                 upStd.names = student.name.trim().split(" ").map(n=>n.toLowerCase());
                 upStd.name = student.name.toLowerCase();
@@ -628,6 +631,9 @@ add.onclick = e=>{
                 upStd.religion = student.religion.toLowerCase();
                 delete stds[id] 
                 stds[lastStdId] = student;
+                for (const i in student){
+                  if (!upStd[i]) upStd[i]=student[i];
+                }
                 await transaction.set(doc(db, schoolId, "db", "students", upStd.id.replaceAll("/", "_")), upStd);
                 await transaction.set(stdsRef, stds);
                 await transaction.set(doc(db, schoolId, key(session.year+terms[session.term])), {lastStudentId: lastId}, {merge:true});

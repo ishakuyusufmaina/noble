@@ -251,6 +251,10 @@ z-index: 102;
   .card > .card {
     margin: 2px;
   }
+  
+  h1 {
+    text-transform: uppercase;
+  }
 </style>
 
 
@@ -292,29 +296,33 @@ z-index: 102;
       </div>
       
     <div class="card fx monSA">
-      <h2>Student Attendace</h2>
+      <h2>Student Attendance</h2>
       <a href="stdAttendance.html">Monitor Student Attendance</a>
     </div>
       
        
       
-    
-    <div class="card">
-      <h2>Academic Performance</h2>
       <div class="card fx rc">
+        <h2>Academic Performance</h2>
+        <div class="card">
         <a href="reportCards.html">Report Cards</a>
-        <a href="reportOverview.html">Overview</a>
-      </div>
+        <a href="reportOverview.html">Results Overview</a>
+        </div> 
+     </div>
       <div class="card fx rcConfig">
-       <a href="rc/configuration.html">Report Card Configuration</a>
+       <h2>Report Card Management</h2>
+       <a href="rc/configuration.html">Configure Report Card</a>
       </div>
-      <div class="card fx scoresheetConfig">
-       <a href="rc/scoreSheetConfig.html">Scoresheet Configuration</a>
+      
+     <div class="card fx scoresheetConfig">
+       <h2>Scoresheet Management</h2>
+       <a href="rc/scoreSheetConfig.html">Configure Scoresheet</a>
       </div>
-      <div class="card fx managePsycho">
+
+   <div class="card fx managePsycho">
+     <h2>Psychometrics Management</h2>
        <a href="define-psycho.html">Manage Psychometrics</a>
-      </div>
-    </div>
+   </div>
       
    
 
@@ -332,10 +340,9 @@ z-index: 102;
       <h2>Subjects Management</h2>
       <div class="card">
         <a href="subjects.html">Subjects</a>
-      </div>
-      <div class="card">
+    
         <a href="rbsd.html">Differential Subjects</a>
-    </div>
+      </div>
     </div>
 
     <div class="card fx teachers">
@@ -363,24 +370,33 @@ z-index: 102;
       <a href="manageAdmins.html">Admin Settings</a>
     </div>
 
-      <div class="card">
-        <h2>School Fees</h2>
+      
         <div class="card fx feesSet">
+          <h2>School Fees Setting</h2>
           <a href="school-fees-setting.html">Fix School Fees</a>
         </div>
         <div class="card fx feesRecord">
+          <h2>School Fees Payment</h2>
           <a href="bursary/index.html">Record School Fees</a>
         </div>
         <div class="card fx feesView">
+          <h2>School Fees Records</h2>
           <a href="bursary/records.html">View School Fees</a>
         </div>
         <div class="card fx feesDefaulter">
+          <h2>School Fees Defaulters</h2>
           <a href="bursary/defaulter.html">Check School Fees Defaulters</a>
         </div>
         <div class="card fx otherFees">
+          <h2>Other Fees Setting</h2>
           <a href="bursary/custom-fees.html">Set Other Fees</a>
         </div>
-      </div>
+      
+      
+     <div class="card fx cloudBill">
+      <h2>Cloud and Storage Billing</h2>
+      <a href="bill.html">Manage Cloud and Storage Billings</a>
+    </div>
       
 
 
@@ -445,7 +461,8 @@ const adminFunctions = [
     "rcConfig",
     "scoresheetConfig",
     "otherFees",
-    "managePsycho"
+    "managePsycho",
+    "cloudBill"
   ];
   
 /*adminFunctions.forEach(fx=>{
