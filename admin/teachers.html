@@ -331,13 +331,14 @@ console.log(id);
   
   function presentTeachers(teachs){
     teachers = teachs;
+  
     let container = document.getElementById('fieldContainer');
     container.innerHTML = "";
     let vals = Object.values(teachers).sort((a, b) => a.name.localeCompare(b.name) )
       vals.forEach(val=>{
       let teacher = val
       teacher.load ??= {};
-                
+      if (!teacher.sections.filter(sect=>sects.includes(sect)).length) return;
       addField(teacher);
       
     }); 
