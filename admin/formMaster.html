@@ -225,8 +225,13 @@ details ol li::before {
   if (sectionDoc.exists()){
     let sections = sectionDoc.data();
     let sectKeys = Object.keys(sections).sort();
-     
-      relFxn.resources.forEach(clas=>{
+     let classes = [];
+    let sects = relFxn.resources;
+   sects.forEach(sect=> {
+     console.log(sect);
+     classes = classes.concat(sections[sect].classes);
+   })
+      classes.forEach(clas=>{
         let row = table.insertRow();
         let td = row.insertCell();
         td.innerHTML = clas;
@@ -240,6 +245,7 @@ details ol li::before {
         let tchList = document.createElement("ul");
         for (const username in teachers){
           let teacher = teachers[username];
+          if (!teacher.sections.filter(s=>sects.includes(s)).length) continue;
           let list = document.createElement("li");
           list.innerHTML = teacher.name;
           tchList.append(list);
