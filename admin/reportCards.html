@@ -496,11 +496,11 @@ container.append(hr, wrapper);
     [{name, subtotal}, ..]
     examTotal
     */
-    let total = examTotal;
+    let total = Number(examTotal);
     let txt =""
     asms.forEach(a=>{
       txt += `<th>${a.name} (${a.subtotal})</th>`;
-      total +=a.subtotal;
+      total +=Number(a.subtotal);
     })
     txt += `<th>Exam (${examTotal})</th><th>Total (${total})</th>`;
     return txt;
