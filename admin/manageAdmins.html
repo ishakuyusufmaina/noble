@@ -195,7 +195,7 @@
       const auth = getAuth(app);
     const db = getFirestore(app);
   
-  const schoolId = "innovative";
+  const schoolId = "noble";
   let teacherDoc = await getDoc(doc(db, schoolId, "teachers"));
   let teachers = teacherDoc.exists()? teacherDoc.data() : {};
   let sectionDoc = await getDoc(doc(db, schoolId, "section"));

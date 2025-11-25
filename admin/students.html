@@ -284,7 +284,10 @@ let sectionDoc = await getDoc(sectionRef);
            
            let classes = teacher.adminFunctions.students.resources;
        
-          
+         let fmClasses =[];
+        if (teacher.role && teacher.role.fm){
+          classes = classes.concat(teacher.role.fm);
+        }
                //let classes = sections[key].classes;
                classes.forEach(clas=>classSelect.innerHTML +=`<option>${clas}</option>`);
                
@@ -462,6 +465,9 @@ add.onclick = e=>{
         window.print();
     }*/
   saveBtn.onclick = async e=>{
+    if (saveBtn.disabled) return;
+    saveBtn.innerHTML = "Saving..";
+    saveBtn.disabled = true;
     let clas = key(classSelect.value);
     let session = key(sessionSelect.value);
     if (!(clas && session)) return;
@@ -469,6 +475,7 @@ add.onclick = e=>{
     if (!currentStudents) return;
     if (!Object.values(currentStudents).length) return;
     await batch.commit();
+   // batch = writeBatch(db);
     await runTransaction(db, async transaction=>{
       let stdsDoc = await transaction.get(stdsRef);
       let stds = stdsDoc.exists()? stdsDoc.data() : {};
@@ -481,7 +488,9 @@ add.onclick = e=>{
       await transaction.set(stdsRef, currentStudents);
    });
       await loadStudents();
-    alert("saved!");
+    saveBtn.innerHTML = "Saved!";
+    setTimeout(_=>saveBtn.innerHTML="Save", 2000);
+   
   }
   
   classSelect.onchange = async e=>{

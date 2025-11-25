@@ -146,7 +146,7 @@
     <hr>
     <div class="stat">
       <span class="label">Upscaling Rate</span>
-      <span id="coun" class="value">₦1000/Student</span>
+      <span id="coun" class="value">₦250/Student</span>
     </div>
     <div class="stat">
       <span class="label">Students upscaled</span>
@@ -210,7 +210,7 @@
    
       
       
-  const rate = 1000;
+  const rate = 250;
   
   let b = (credit/rate) - count*rate;
   
@@ -248,7 +248,7 @@
       const addCredit = parseInt(prompt("Enter student capacity", "0"));
       if (!isNaN(addCredit) && addCredit > 0) {
         //credit += addCredit;
-        let amount = addCredit*200;
+        let amount = addCredit*rate;
         console.log(amount);
         initilize(amount);
         updateDisplay();

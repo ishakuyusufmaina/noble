@@ -28,9 +28,7 @@
   
   
   </div>
-  
-  <div id="container">
-    
+    <div id="container">    
   </div>
   
 
@@ -184,7 +182,10 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
     if (sections[sectK].useDerivedAsm && scoreSheetConfig.derivedAsms.length) {
       scoreSheetConfig.derivedAsms.forEach(dasm=>{
          dasm.subtotal = 0;
-         dasm.derivatives.forEach(d=>dasm.subtotal +=assessments.find(a=>a.name==d).subtotal);
+         dasm.derivatives.forEach(d=>    {
+          dasm.subtotal +=Number(assessments.find(a=>a.name==d).subtotal)
+          
+        });
         predefinedAsms.push(dasm);
       })
       

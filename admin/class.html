@@ -234,7 +234,7 @@
 }; */
   
   
-  const schoolId = "innovative";
+  const schoolId = "noble";
      // Replace with your Cloudinary details
   const cloudName = "daktkkz2k"; // Replace with your Cloudinary cloud name
   const uploadPreset = "passport"; // Replace with your unsigned preset
@@ -499,13 +499,14 @@ let sectionDoc = await getDoc(sectionRef);
   }
 add.onclick = e=>{
   let cls = classSelect.value.trim();
+  console.log(cls);
   let section;
-  for (const sect in sections){
-    
-    if (sections[sect].classes.map(c=>c.trim()).includes(cls)) {
-      section = sect;
-   
+  for (const sect in sections){    
+   sections[sect].classes = sections[sect].classes.map(c=>c.trim());
+    if (sections[sect].classes.includes(cls)) {
+      section = sect;   
     }
+    
   }
   console.log(section);
   let result ={

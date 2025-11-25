@@ -289,7 +289,7 @@ button.delete:hover {
 
   
   
-  const schoolId = "innovative";
+  const schoolId = "noble";
   const test = true;
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
@@ -312,10 +312,11 @@ console.log(id);
      let teachersRef = doc(db, schoolId, "teachers");
     let teachersDoc = await getDoc(teachersRef);
   teachers = teachersDoc.exists()? teachersDoc.data() : {}
-    let teacher = teachers[id];
+    let teacher = teachers[id] || {};
 
 
   let subjs = [];
+ teacher.adminFunctions ??={teachers:{resources:[]}};
   const sects = teacher.adminFunctions.teachers.resources;
   console.log(sects);
  /* if (sectionDoc.exists()){
