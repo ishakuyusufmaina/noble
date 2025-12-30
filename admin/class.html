@@ -334,6 +334,10 @@ let sectionDoc = await getDoc(sectionRef);
     row.classList.add("record");
     row.classList.add("std");
     console.log(result.picURL);
+    if (!result.section){
+      result.section = getSectionByClass(clas, sections);  
+      console.log(clas, result.section);      
+    }
     let picURL = optimizeCloudinaryUrl(result.picURL);
       row.innerHTML = `
       <td class="passport std">
@@ -500,14 +504,9 @@ let sectionDoc = await getDoc(sectionRef);
 add.onclick = e=>{
   let cls = classSelect.value.trim();
   console.log(cls);
-  let section;
-  for (const sect in sections){    
-   sections[sect].classes = sections[sect].classes.map(c=>c.trim());
-    if (sections[sect].classes.includes(cls)) {
-      section = sect;   
-    }
+  let section = getSectionByClass(cls, sections)
     
-  }
+   
   console.log(section);
   let result ={
     sn: table.children.length,
@@ -763,7 +762,17 @@ function isEqual(a, b) {
 // Usage:
 //const data = await searchAndMatch("child.html");
 //console.log("Got:", data);
-  
+  function getSectionByClass(cls, sections){
+     let section = null;
+     for (const sect in sections){    
+       let classes = sections[sect].classes.map(c=>key(c))
+       console.log(classes, cls);
+       if (classes.includes(key(cls))) {
+         section = sect;   
+       }
+     } 
+     return section
+  }
   </script>
 </body>
 </html>
