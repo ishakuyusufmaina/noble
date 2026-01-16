@@ -121,7 +121,7 @@
   <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
-  import {getFirestore, runTransaction, doc, writeBatch, setDoc, getDoc} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+  import {getFirestore, doc, writeBatch, setDoc, getDoc} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
   import {getAuth, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
      // import {getDatabase, set, ref, onValue, child, get } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
    /*   const firebaseConfig = {
@@ -189,7 +189,7 @@ await  render();
    let scoreSheetConfig = section.scoreSheetConfig;
    let srp = section.srp??{};
    console.log(JSON.stringify(srp));
-  // console.log(subj);
+   console.log(subj);
    scoreSheetConfig??= {
      total: 100,
      assessments: [
@@ -210,7 +210,7 @@ await  render();
     let smRef = doc(db, schoolId, session, clas, "scoremeta");
    let stdsDoc = await getDoc(stdsRef);
    sbs = {};
-  // console.log(clas, stdsDoc.exists());
+   console.log(clas, stdsDoc.exists());
     if (stdsDoc.exists()){
       table.innerHTML = "";
       const {exam, assessments} = scoreSheetConfig;
@@ -250,33 +250,13 @@ await  render();
         scoremeta.max = subjStdsArr[0].score;
         scoremeta.min = subjStdsArr[subjStdsArr.length-1].score;
         
-     //   console.log(JSON.stringify(scoremeta));        
-        //console.log(subjStdsArr.length);
+        console.log(JSON.stringify(scoremeta));        
+        console.log(subjStdsArr.length);
         let subjScoremeter = {};
         subjScoremeter[subj] = scoremeta;
-        
-     //   batch.set(smRef, subjScoremeter, {merge:true});
-//        batch.set(stdsRef, students, {merge:true});
-       // await batch.commit();
-      //  const stdsRef = doc(db, schoolId, session, clas, "students");
-
-  await runTransaction(db, async (transaction) => {
-    // Optionally read existing data (if needed)
-    // const existing = await transaction.get(stdsRef);
-    let stdsDoc = await transaction.get(stdsRef);
-    let stds = stdsDoc.exists()? stdsDoc.data() : {};
-    // Write new data atomically
-    for (const stu in students){
-      console.log(stu, students[stu].id, subjK);
-      stds[stu].subjects??={};
-      stds[stu].sel ??=[];
-      if (!stds[stu].sel.includes(subjK))
-      stds[stu].subjects[subjK] = students[stu].subjects[subjK];
-      else delete stds[stu].subjects[subjK]
-    }
-     transaction.set(smRef, subjScoremeter, {merge:true});
-     transaction.set(stdsRef, stds);
-  });
+        batch.set(smRef, subjScoremeter, {merge:true});
+        batch.set(stdsRef, students, {merge:true});
+        await batch.commit();
         alert("saved!");
         window.location.reload();
       }      
@@ -290,32 +270,12 @@ await  render();
         if (!!srp[subj] && (srp[subj]!==faiths[student.religion]))
         return
         let id = row.insertCell();
-       //sel => subjects exempted list
-        student.sel??=[];
-        console.log(student.sel);
-        let safeId = student.id.replaceAll("/");
-        id.innerHTML = `
-        <input type="checkbox" id="${safeId}"> 
-        <label for=${safeId}>${student.id}</label>`;
-        let offInp = id.querySelector("input");
-        offInp.checked = !student.sel.includes(subjK);
-        console.log(!student.sel.includes(subjK));
-        offInp.onchange = e=>{
-          if (!offInp.checked){
-            if (!student.sel.includes(subjK))
-            student.sel.push(subjK)
-          } else {
-            let i = student.sel.indexOf(subjK)
-            if (student.sel.includes(subjK))
-            student.sel.splice(i, 1)
-          }
-          console.log(student.sel)
-        }
+        id.innerHTML = student.id;
         let name = row.insertCell(); 
         name.innerHTML = student.name.toUpperCase();
         student.subjects??={};
         student.subjects[subjK]??=[{}, {}, {}];
-       
+        
         student.subjects[subjK][termIndex]??={}
         let scores = student.subjects[subjK][termIndex];
         let sum = 0;
