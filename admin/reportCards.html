@@ -391,8 +391,8 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
         <td>${exam}</td>
         <td>${total}</td>
         <!--td>${(scoremeta[subj]??{students:[{id: std.id, position: "-"}]}.students.find(s=>s.id==std.id)).position}</td-->
-        <td>${interp.grade? interp.grade : grade(0, score) /*grade(t1+t2+t3, Number(subjects[subj][termIndex].exam))*/}</td>
-        <td>${interp.remark? interp.remark : remark(0, score) /*remark(t1+t2+t3, Number(subjects[subj][termIndex].exam))*/}</td>
+        <td>${interp.grade? interp.grade : grade(0, total) /*grade(t1+t2+t3, Number(subjects[subj][termIndex].exam))*/}</td>
+        <td>${interp.remark? interp.remark : remark(0, total) /*remark(t1+t2+t3, Number(subjects[subj][termIndex].exam))*/}</td>
         
         `;
         reportCard.appendChild(row);
