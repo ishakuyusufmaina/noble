@@ -246,9 +246,10 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
         //mixed school? report card => error
       }
       let faith = stdReg == "Islam"? "Muslim" : "Christian";
+     sectSubjs = sectSubjs.map(s=>s.trim().toLowerCase());
       for (const subj in subjects) {     
         //console.log(subjects[subj]);        
-        let sN = subjects[subj][termIndex].subject;    
+        let sN = subjects[subj][termIndex].subject.trim().toLowerCase();    
       //  console.log(sN);        
         if (!sectSubjs.includes(sN)){//subj not in the section subjects
           delete subjects[subj];
