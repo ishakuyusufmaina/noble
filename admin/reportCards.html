@@ -251,11 +251,11 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
         //console.log(subjects[subj]);        
         let sN = subjects[subj][termIndex].subject.trim().toLowerCase();    
       //  console.log(sN);        
-     /*   if (!sectSubjs.includes(sN)){//subj not in the section subjects
+        if (!sectSubjs.includes(sN)){//subj not in the section subjects
           delete subjects[subj];
          // console.log(subj, "deleted out");
           
-        }          */
+        }          
         if (srp[sN]) {
           //if the srp of the subj is not as of the faith of the student, delete the subject among the student's subjects
           if (!(srp[sN]==faith))
