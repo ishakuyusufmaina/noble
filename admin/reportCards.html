@@ -10,7 +10,7 @@
   <!-- Include this in the <head> of your HTML -->
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
   <script src="rc/rc.js"></script>
-  <title>Position</title>
+  <title>NOBLE PEARLS - TERMINAL REPORT CARDS</title>
   
 </head>
 <body>
@@ -316,10 +316,10 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
       
       <tr class="std-name">          
         <td>NAME: ${std.name.toUpperCase()}</td>
-        <td>GENDER: ${std.gender}</td>
+        <td>GENDER: ${std.gender.toUpperCase()}</td>
       </tr>
       <tr>
-      <td>TERM: ${sessionSelect.value.split(",")[1]}</td>
+      <td>TERM: ${sessionSelect.value.split(",")[1].toUpperCase()}</td>
       <td>CLASS: ${classSelect.value}</td>
       </tr>
       <tr>    
@@ -327,8 +327,8 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
       <td>RESUMPTION: <strong><time>20<sup>th</sup> APRIL, 2026</time></strong></td>
       </tr>
       <tr>
-      <td></td>    
       <td>TERM GRADE: ${g}</td>
+      <td class="cGrade"></td>   
       </tr>
       </table> 
       </caption>
@@ -412,7 +412,7 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
       //wrapper.innerHTML = '<img class="stamp" src="../../stamp.jpg">'
       let psychoElm = document.createElement("table");
       let txt = "";
-      let domains = sections[std.section].psychometrics;
+      let domains = sections[std.section]?.psychometrics;
       console.log(domains, std.section);
       
      /* domains.forEach(d=>{
@@ -436,13 +436,28 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
       let p = document.createElement("p");
       p.innerHTML = `
       TOTAL SCORE: ${std.score}<br>
-      AVERAGE SCORE: ${tosf(std.score/std.sc, 4)}
+      <span class="average-container"><span>TERM AVERAGE: ${tosf(std.score/std.sc, 4)}</span> <span class="cumAverage"></span></span>
       <br>
       
       COMMENT: <strong class="comment">${comnt}</strong>
     <img id="stamp" src="stamp.png">
       `;
       wrapper.append(p);
+	  
+	  if (termIndex==2){
+		let avElm = p.querySelector(".cumAverage");
+		std.termAverages ??=[];
+	  if (!std.termAverages.filter(average=>average.termIndex==termIndex).length){
+			std.termAverages.push({termIndex, totalScore: std.score, subjectCount: std.sc});
+	    }
+		let totalTermsScore = 0;
+		let totalSubjCount = 0;
+		std.termAverages.forEach(s=>{totalTermsScore+=s.totalScore; totalSubjCount+=s.subjectCount});
+		avElm.innerHTML = "CUMMULATIVE AVERAGE: "+tosf(totalTermsScore/totalSubjCount, 4);
+		let interp = interpret(totalTermsScore/totalSubjCount, scoreInterpretations);
+		const g = interp.grade? interp.grade : grade(0, totalTermsScore/totalSubjCount);
+		reportCard.querySelector(".cGrade").innerHTML = "CUMMULATIVE GRADE: "+ g;
+	  }
       p.classList.add("rfooter");
       p = document.createElement("p");
       p.innerHTML = `
@@ -911,6 +926,17 @@ table tr:nth-child(odd) {
   .n, .c {
     display: none;
   }
+  
+  .average-container {
+  display: flex;
+  margin-to: 4px;
+  justify-content: space-evenly;
+  }
+  
+  
+   table, .table-container, .table-container > *{
+      margin: auto;
+    }
   </style>
 </body>
 </html>
