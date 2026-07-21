@@ -470,6 +470,7 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
 			const stdsData = stdsDoc.data();
 			localStudents.forEach(std=>{
 				let id = std.id;
+				return stdsData[id];
 				stdsData[id].termAverages = std.termAverages;
 				console.log(stdsData);
 			});
