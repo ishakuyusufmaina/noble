@@ -324,11 +324,12 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
       </tr>
       <tr>    
       <td>SESSION: ${sessionSelect.value.split(",")[0]}</td>
-      <td>RESUMPTION: <strong><time>20<sup>th</sup> APRIL, 2026</time></strong></td>
+      <td>RESUMPTION: <strong><time>7<sup>th</sup> SEPTEMBER, 2026</time></strong></td>
       </tr>
       <tr>
       <td>TERM GRADE: ${g}</td>
       <td class="cGrade"></td>   
+	  <td class="cPosition"></td>
       </tr>
       </table> 
       </caption>
@@ -446,17 +447,25 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
 	  
 	  if (termIndex==2){
 		let avElm = p.querySelector(".cumAverage");
+		console.log(std.termAverages);
 		std.termAverages ??=[];
+		 reportCard.querySelector(".cPosition").innerHTML = "CUMM. POSITION: " + toSuperscriptOrdinal(std.position);
 	  if (!std.termAverages.filter(average=>average.termIndex==termIndex).length){
 			std.termAverages.push({termIndex, totalScore: std.score, subjectCount: std.sc});
 	    }
 		let totalTermsScore = 0;
 		let totalSubjCount = 0;
-		std.termAverages.forEach(s=>{totalTermsScore+=s.totalScore; totalSubjCount+=s.subjectCount});
+		console.log(std.termAverages.length);
+		std.termAverages.forEach((s, i)=>{
+			totalTermsScore+=s.totalScore; 
+			totalSubjCount+=s.subjectCount;
+			console.log(i, s.totalScore, s.subjectCount);
+			
+		});
 		avElm.innerHTML = "CUMMULATIVE AVERAGE: "+tosf(totalTermsScore/totalSubjCount, 4);
 		let interp = interpret(totalTermsScore/totalSubjCount, scoreInterpretations);
 		const g = interp.grade? interp.grade : grade(0, totalTermsScore/totalSubjCount);
-		reportCard.querySelector(".cGrade").innerHTML = "CUMMULATIVE GRADE: "+ g;
+		reportCard.querySelector(".cGrade").innerHTML = "CUMM. GRADE: "+ g;
 	  }
       p.classList.add("rfooter");
       p = document.createElement("p");
@@ -505,16 +514,21 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
    function assignPositions(students) {
   // Defensive: ensure score and sc numeric
   students.forEach(s => {
-    s.score = Number(s.score) || 0;
-    s.sc = Number(s.sc) || 0;
+    s.totalTermsScore ??=0;
+	s.totalSubjCount ??=0;
+	s.termAverages.forEach((score, i)=>{
+		s.totalTermsScore+=score.totalScore; 
+		s.totalSubjCount+=score.subjectCount;		
+	});
+    
   });
 
   // Compute average guardedly (students with sc===0 go to the end)
   students.sort((a, b) => {
-    const aAvg = a.sc > 0 ? (a.score / a.sc) : -Infinity;
-    const bAvg = b.sc > 0 ? (b.score / b.sc) : -Infinity;
+    const aAvg = a.totalSubjCount > 0 ? (a.totalTermsScore / a.totalSubjCount) : -Infinity;
+    const bAvg = b.totalSubjCount > 0 ? (b.totalTermsScore / b.totalSubjCount) : -Infinity;
     // sort descending by average, and if tie, fall back to total score descending
-    if (bAvg === aAvg) return Number(b.score) - Number(a.score);
+    if (bAvg === aAvg) return Number(b.totalTermsScore) - Number(a.totalTermsScore);
     return bAvg - aAvg;
   });
 
@@ -526,7 +540,7 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
 
   students.forEach((student, idx) => {
     currentPosition = idx + 1;
-    const avg = student.sc > 0 ? student.score / student.sc : -Infinity;
+    const avg = student.totalSubjCount > 0 ? student.totalTermsScore / student.totalSubjCount : -Infinity;
 
     if (lastAvg !== null && Math.abs(avg - lastAvg) <= EPS) {
       // tie -> same position as previous
@@ -937,6 +951,10 @@ table tr:nth-child(odd) {
    table, .table-container, .table-container > *{
       margin: auto;
     }
+	
+	.cPosition {
+		font-weight: bolder;
+	}
   </style>
 </body>
 </html>
