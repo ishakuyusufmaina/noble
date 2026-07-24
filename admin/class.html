@@ -676,10 +676,12 @@ add.onclick = e=>{
                 upStd.class = classSelect.value.toLowerCase();
                 upStd.id = student.id;
                 
-                console.log(student.name);
+                console.log(student);
+				student.name ??="";
                 upStd.names = student.name.trim().split(" ").map(n=>n.toLowerCase());
                 upStd.name = student.name.toLowerCase();
-                upStd.gender = student.gender.toLowerCase();
+				student.gender ??="";
+                upStd.gender = student.gender?.toLowerCase();
                 student.religion??="";
                 upStd.religion = student.religion.toLowerCase();
                 delete stds[id] 
