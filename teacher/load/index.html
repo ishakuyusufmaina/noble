@@ -4,75 +4,171 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
   <title>Teacher Load</title>
   <style>
+    :root {
+      --navy-deep: #001a33;
+      --navy: #003366;
+      --navy-mid: #0a4d8c;
+      --gold: #c9a24b;
+      --gold-soft: #e3cd94;
+      --pearl: #f5f7fa;
+      --radius-lg: 14px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--pearl);
+      color: white;
+	  text-transform: capitalize;
+    }
+
+    .home-link {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--navy);
+      color: #fff;
+      border-radius: 50%;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 26, 51, 0.3);
+      transition: background 0.25s ease, transform 0.15s ease;
+      z-index: 10;
+    }
+
+    .home-link:hover {
+      background: var(--navy-mid);
+      transform: translateY(-1px);
+    }
+	
+	hr {
+	 position: sticky;
+	top: 70px;
+	left: 0;
+	width: 100%;
+	border: 0;
+    height: 3px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--navy), rgba(0, 0, 0, 0));
+
+	
+	}
+
     main {
       margin: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: #f7f9fb;
-      color: #333;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
+      padding: 80px 20px 40px;
     }
 
     header {
-      background-color: #4a90e2;
-      color: white;
-      padding: 20px;
-      border-radius: 12px;
+	 margin-top: -6px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      color: #fff;
+      padding: 26px 28px;
+      border-radius: var(--radius-lg);
       width: 100%;
       max-width: 600px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 30px;
+      box-shadow: 0 8px 20px rgba(0, 26, 51, 0.22);
+      margin-bottom: 34px;
+      border: 1px solid rgba(201, 162, 75, 0.3);
     }
 
     header div {
       margin: 10px 0;
-      font-size: 1.1em;
+      font-size: 1.05em;
+      display: flex;
+      gap: 6px;
     }
 
+    header div::before {
+      content: attr(data-label);
+      color: var(--gold-soft);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      min-width: 78px;
+    }
+	
+	.l-container{
+	 background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s;
+	margin: 12px;
+	display: inline-block;
+	width: 250px;
+	}
+
     a.fw {
-      display: block;
+      display: inline-block;
       background-color: #ffffff;
-      color: #4a90e2;
+      color: var(--navy);
       text-align: center;
-      padding: 15px;
+      padding: 16px;
       margin: 10px auto;
-      width: 100%;
-      max-width: 400px;
-      border-radius: 10px;
+      border-radius: var(--radius-sm);
       text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1em;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
+      font-weight: 700;
+      font-size: 1.05em;
+      letter-spacing: 0.02em;
+      border: 1px solid rgba(0, 51, 102, 0.12);
+      box-shadow: 0 4px 12px rgba(0, 26, 51, 0.08);
+      transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
     }
 
     a.fw:hover {
-      background-color: #4a90e2;
-      color: white;
+      background: linear-gradient(135deg, var(--gold) 0%, #b78d38 100%);
+      color: var(--navy-deep);
       transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(201, 162, 75, 0.35);
+      border-color: transparent;
+    }
+	
+	main a {
+	   width: 100%;
+      max-width: 400px;
+	}
+
+    @media (max-width: 480px) {
+      header {
+        padding: 20px;
+      }
+      header div::before {
+        min-width: 68px;
+      }
     }
   </style>
 </head>
 <body>
- <a href="../index.html"><i class="fas fa-home"></i></a>
+ <a class="home-link" href="../index.html"><i class="fas fa-home"></i></a>
+ <hr>
   <main>
   <header>
    
-    <div id="date">Date: </div>
-    <div id="session">Session: </div>
-    <div id="clas">Class: </div>
-    <div id="subject">Subject: </div>
+    <div id="date" data-label="Date"></div>
+    <div id="session" data-label="Session"></div>
+    <div id="clas" data-label="Class"></div>
+    <div id="subject" data-label="Subject"></div>
   </header>
   
-  <div>
-    <a class="fw" href="teachAndSign.html">Teach and Sign</a>
-  </div>
-  <div>
+ 
+  <div class="l-container">
     <a class="fw" id="scoreSheet">Score Sheet</a>
+	<a class="fw" href="teachAndSign.html">Teach and Sign</a>
   </div>
   </main>
 
