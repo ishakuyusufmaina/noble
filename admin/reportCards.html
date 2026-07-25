@@ -516,7 +516,7 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
   students.forEach(s => {
     s.totalTermsScore ??=0;
 	s.totalSubjCount ??=0;
-	s.termAverages.forEach((score, i)=>{
+	s.termAverages?.forEach((score, i)=>{
 		s.totalTermsScore+=score.totalScore; 
 		s.totalSubjCount+=score.subjectCount;		
 	});
