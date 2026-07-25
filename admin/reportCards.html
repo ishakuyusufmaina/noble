@@ -247,7 +247,15 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
       }
       let faith = stdReg == "Islam"? "Muslim" : "Christian";
       for (const subj in subjects) {     
-        //console.log(subjects[subj]);        
+        if (subj=="Askar"){
+			console.log(subjects[subj]);
+			if (Number(subjects[subj][termIndex]["1st CA"]?.replace("-", 0) || 0) + Number(subjects[subj][termIndex]["exam"]?.replace("-", 0) || 0)){
+				subjects["Hisab"][termIndex] = subjects[subj][termIndex];
+				subjects["Hisab"][termIndex].subject = "Hisab";
+				
+			}
+			delete subjects[subj]; continue;
+	  }   
         let sN = subjects[subj][termIndex].subject;
         if (subjects[subj][termIndex].inactive){
           delete subjects[subj];
@@ -514,12 +522,15 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
    function assignPositions(students) {
   // Defensive: ensure score and sc numeric
   students.forEach(s => {
-    s.totalTermsScore ??=0;
-	s.totalSubjCount ??=0;
+    s.totalTermsScore =0;
+	s.totalSubjCount =0;
+	console.log(s);
 	s.termAverages?.forEach((score, i)=>{
 		s.totalTermsScore+=score.totalScore; 
-		s.totalSubjCount+=score.subjectCount;		
+		s.totalSubjCount+=score.subjectCount;	
+		console.log(score);
 	});
+	
     
   });
 
@@ -563,6 +574,11 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
     alert();
     window.print();
   }*/
+  
+  
+  
+  
+  
   
   function getAsmHeads(asms, examTotal){
     /*
