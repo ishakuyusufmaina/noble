@@ -256,7 +256,7 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
 			}
 			delete subjects[subj]; 
 			let termAverages = student.termAverages || [];
-			let avaerage = termAverages.filter(average=>average.termIndex == termIndex)[0];
+			let average = termAverages.filter(average=>average.termIndex == termIndex)[0];
 			if (average) average.subjectCount--;
 			continue;
 	  }   
