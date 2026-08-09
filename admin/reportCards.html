@@ -254,7 +254,11 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
 				subjects["Hisab"][termIndex].subject = "Hisab";
 				
 			}
-			delete subjects[subj]; continue;
+			delete subjects[subj]; 
+			let termAverages = student.termAverages || [];
+			let avaerage = termAverages.filter(average=>average.termIndex == termIndex)[0];
+			if (average) average.subjectCount--;
+			continue;
 	  }   
         let sN = subjects[subj][termIndex].subject;
         if (subjects[subj][termIndex].inactive){
