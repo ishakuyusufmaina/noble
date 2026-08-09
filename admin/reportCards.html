@@ -456,7 +456,7 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
     <img id="stamp" src="stamp.png">
       `;
       wrapper.append(p);
-	  
+	  console.log(std.name, std.id);
 	  if (termIndex==2){
 		let avElm = p.querySelector(".cumAverage");
 		console.log(std.termAverages);
@@ -467,7 +467,7 @@ let teachersDoc = await getDoc(doc(db, schoolId, "teachers"));
 	    }
 		let totalTermsScore = 0;
 		let totalSubjCount = 0;
-		console.log(std.name);
+		
 		std.termAverages.forEach((s, i)=>{
 			totalTermsScore+=s.totalScore; 
 			totalSubjCount+=s.subjectCount;
